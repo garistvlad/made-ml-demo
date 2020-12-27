@@ -3,8 +3,11 @@ class Config:
 
 
 class ProductionConfig(Config):
-    pass
+    SECRET_KEY = "prod-extremely-secret-key"
 
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///scoring.db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = "dev-extremely-secret-key"
