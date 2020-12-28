@@ -15,7 +15,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # If predicted score is higher than threshold - reject the request
-THRESHOLD_SCORE = 0.1
+THRESHOLD_SCORE = 0.05
 
 
 class Score(db.Model):
@@ -24,7 +24,7 @@ class Score(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
 
     def __repr__(self):
-        return f"Score: {self.score} Phone: {self.user.phone}"
+        return f"Score: {self.score}"
 
 
 class User(db.Model):
