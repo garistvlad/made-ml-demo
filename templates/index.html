@@ -3,7 +3,7 @@
 {{ title | default("Scoring") }}
 {% endblock %}
 {% block body %}
-<div class="container pt-3 col-5">
+<div class="container pt-3 col-sm-6">
 <div class="row align-items-center justify-content-center">
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
