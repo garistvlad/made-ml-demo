@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf import FlaskForm as Form
@@ -13,6 +13,9 @@ app.config.from_object(DevelopmentConfig)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# If predicted score is higher than threshold - reject the request
+THRESHOLD_SCORE = 0.1
 
 
 class Score(db.Model):
@@ -29,7 +32,6 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     phone = db.Column(db.Integer, unique=True, nullable=False)
     score = db.relationship('Score', backref='user')
-    # TODO: add other features for ML model
 
     @property
     def calculated_score(self):
@@ -57,18 +59,28 @@ class PhoneForm(Form):
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    # TODO: List of categories: https://getbootstrap.com/docs/4.0/components/alerts/
     form = PhoneForm()
     if form.validate_on_submit():
         phone_data = form.phone.data
         user = User.query.filter_by(phone=User.phone_to_integer(phone_data)).first()
         if not user or user.calculated_score is None:
             flash(message=f"There are no transaction history for user: {phone_data}", category="warning")
-            score=None
+            score = None
         else:
             score = user.calculated_score
-        return render_template("index.html", title="Score check", form=form, score=score)
-    return render_template("index.html", title="Score check", form=form)
+        return render_template(
+            "index.html",
+            title="Score check",
+            form=form,
+            score=score,
+            threshold=THRESHOLD_SCORE
+        )
+    return render_template(
+        "index.html",
+        title="Score check",
+        form=form,
+        threshold=THRESHOLD_SCORE
+    )
 
 
 if __name__ == "__main__":

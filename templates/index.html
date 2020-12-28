@@ -27,8 +27,8 @@
         </form>
         {% if score %}
         <p class="lead bg-light p-3">
-            Probability of default: {{ "{:.2%}".format(score) }}<br>
-            {% if score > 0.1 %}
+            Probability of default: <span class="display-4">{{ "{:.2%}".format(score) }}</span><br>
+            {% if score > threshold %}
             <span class="text-danger">You should reject this request</span>
             {% else %}
             <span class="text-success">You can approve this request</span>
