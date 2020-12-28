@@ -1,7 +1,9 @@
-# made-ml-demo
-An example of ML model deployment with Flask and Docker (as MADE ML Home Assignment #4)
+# MADE ML Задание №4 (https://data.mail.ru/blog/topic/view/17800/)
 
-Short description:
-- It's a scoring model (LightGBM)
-- with Flask web interface
-- hosted on Google Cloud and can be checked here: http://34.70.157.94:5000
+Пример обучения (LightGBM) и деплоя (Flask) скоринговой модели.
+
+Данные взяты из соревнования по анализу данных от крупного российского банка, 1 млн строчек train, 500 тыс строчек test.
+Номера телефонов сгенерированы случайным образом т.к. транзакции реальных людей представляют банковскую тайну.
+
+Модель обучается локально, а предсказанные вероятности дефолта загружаются в БД (SQLite) для последующего обращения web-сервиса к ним.
+Сервис хостится на Google Cloud, а протестировать его можно по ссылке: http://34.70.157.94:5000
